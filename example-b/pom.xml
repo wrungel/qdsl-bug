@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.example</groupId>
+        <artifactId>parent</artifactId>
+        <version>0.1-SNAPSHOT</version>
+    </parent>
+    
+    <artifactId>b</artifactId>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+
+	<dependencies>
+		<dependency>
+            <groupId>com.example</groupId>
+            <artifactId>a</artifactId>
+            <version>0.1-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate.javax.persistence</groupId>
+			<artifactId>hibernate-jpa-2.0-api</artifactId>
+			<scope>provided</scope>
+			<version>1.0.0.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>com.mysema.querydsl</groupId>
+			<artifactId>querydsl-apt</artifactId>
+			<version>2.7.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.mysema.querydsl</groupId>
+			<artifactId>querydsl-jpa</artifactId>
+			<version>2.7.0</version>
+		</dependency>
+		<!-- end -->
+
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.5.1</version>
+				<configuration>
+					<encoding>${project.build.sourceEncoding}</encoding>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.mysema.maven</groupId>
+				<artifactId>maven-apt-plugin</artifactId>
+				<version>1.0.2</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>process</goal>
+						</goals>
+						<configuration>
+							<sourceDirectory>${project.basedir}</sourceDirectory>
+							<outputDirectory>${project.build.directory}/generated-sources/apt</outputDirectory>
+							<processor>com.mysema.query.apt.jpa.JPAAnnotationProcessor</processor>
+							<logOnlyOnError>true</logOnlyOnError>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>1.7</version>
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>${project.build.directory}/generated-sources/apt</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+		<pluginManagement>
+			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											com.mysema.maven
+										</groupId>
+										<artifactId>
+											maven-apt-plugin
+										</artifactId>
+										<versionRange>
+											[1.0.2,)
+										</versionRange>
+										<goals>
+											<goal>process</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+</project>
